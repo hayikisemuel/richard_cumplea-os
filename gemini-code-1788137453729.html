@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Feliz Cumpleaños Richard! 🎂</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fdfbfb 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            perspective: 1200px;
+        }
+
+        .escritorio {
+            width: 100%;
+            max-width: 450px;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .sobre-container {
+            position: relative;
+            width: 320px;
+            height: 210px;
+            background: #ff758c;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 15px 35px rgba(255, 117, 140, 0.4);
+            cursor: pointer;
+            transition: transform 0.4s ease, opacity 0.4s ease;
+        }
+
+        .sobre-solapa {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 160px solid transparent;
+            border-right: 160px solid transparent;
+            border-top: 110px solid #ff527b;
+            transform-origin: top;
+            transition: transform 0.5s ease;
+            z-index: 3;
+        }
+
+        .sobre-texto {
+            position: absolute;
+            top: 58%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 1.1rem;
+            font-weight: bold;
+            text-align: center;
+            z-index: 4;
+            pointer-events: none;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .sello {
+            position: absolute;
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 45px;
+            height: 45px;
+            background: #ffd700;
+            border-radius: 50%;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            z-index: 5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #d4ac0d;
+            font-size: 1.2rem;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        .carta {
+            position: absolute;
+            width: 340px;
+            max-height: 90vh;
+            background: #ffffff;
+            border: 2px solid #ffe6eb;
+            padding: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+            border-radius: 12px;
+            z-index: 2;
+            opacity: 0;
+            transform: translateY(80px) scale(0.6) rotateX(20deg);
+            transform-origin: bottom center;
+            pointer-events: none;
+            transition: all 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+            overflow-y: auto;
+            text-align: center;
+        }
+
+        .carta h1 {
+            color: #ff527b;
+            font-size: 1.4rem;
+            margin-bottom: 8px;
+            font-family: 'Georgia', serif;
+        }
+
+        .carta .foto-principal {
+            width: 100%;
+            max-height: 140px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin: 8px 0;
+            border: 3px solid #ff758c;
+            box-shadow: 0 4px 12px rgba(255, 117, 140, 0.3);
+        }
+
+        .carta p {
+            color: #555555;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            margin-bottom: 8px;
+        }
+
+        .carta .firma {
+            margin-top: 10px;
+            font-style: italic;
+            color: #ff758c;
+            font-weight: bold;
+            font-size: 0.95rem;
+        }
+
+        .escritorio.abierto .sobre-solapa {
+            transform: rotateX(180deg);
+            z-index: 0;
+            transition: transform 0.5s ease;
+        }
+
+        .escritorio.abierto .sello,
+        .escritorio.abierto .sobre-texto {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .escritorio.abierto .sobre-container {
+            opacity: 0.2;
+            transform: translateY(120px) scale(0.9);
+            pointer-events: none;
+            transition: all 0.8s ease 0.2s;
+        }
+
+        .escritorio.abierto .carta {
+            opacity: 1;
+            transform: translateY(0) scale(1) rotateX(0deg);
+            pointer-events: auto;
+            z-index: 20;
+            box-shadow: 0 20px 45px rgba(0,0,0,0.2);
+        }
+
+        /* Contenedor de Confeti */
+        .confeti-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 5;
+            display: none;
+        }
+
+        .confeti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #ffd700;
+            animation: caer 3s linear infinite;
+        }
+
+        @keyframes caer {
+            0% {
+                transform: translateY(-20px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="confeti-container" id="confetiBox"></div>
+
+    <div class="escritorio" id="escritorio">
+        <div class="sobre-container" id="abrirCarta">
+            <div class="sobre-solapa"></div>
+            <div class="sello">✨</div>
+            <div class="sobre-texto"><br>Toca para abrir 💌</div>
+        </div>
+
+        <div class="carta">
+            <h1>¡Feliz Cumpleaños Richard!</h1>
+            
+            <img src="WhatsApp Image 2026-08-30 at 7.15.22 PM.jpeg" class="foto-principal" alt="Foto de amigos">
+            
+            <p>Que pases un día increíble lleno de alegría, risas y muchas cosas bonitas.</p>
+            <p>Te mereces lo mejor hoy y siempre. ¡Disfruta muchísimo tu día!</p>
+            
+            <div class="firma">Atte. Rafa.</div>
+        </div>
+    </div>
+
+    <audio id="musicaCumple" src="Las mañanitas con cepillin.mp3" preload="auto" loop></audio>
+
+    <script>
+        const escritorio = document.getElementById('escritorio');
+        const botonAbrir = document.getElementById('abrirCarta');
+        const musica = document.getElementById('musicaCumple');
+        const confetiBox = document.getElementById('confetiBox');
+
+        function lanzarConfeti() {
+            confetiBox.style.display = 'block';
+            const colores = ['#ff758c', '#ffd700', '#ff527b', '#a8ede9', '#fed6e3', '#96e6a1'];
+            
+            for (let i = 0; i < 50; i++) {
+                const confeti = document.createElement('div');
+                confeti.classList.add('confeti');
+                confeti.style.left = Math.random() * 100 + 'vw';
+                confeti.style.backgroundColor = colores[Math.floor(Math.random() * colores.length)];
+                confeti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                confeti.style.animationDelay = (Math.random() * 1.5) + 's';
+                
+                // Variar formas entre cuadrados y círculos
+                if (Math.random() > 0.5) {
+                    confeti.style.borderRadius = '50%';
+                }
+                
+                confetiBox.appendChild(confeti);
+            }
+        }
+
+        botonAbrir.addEventListener('click', () => {
+            escritorio.classList.add('abierto');
+            lanzarConfeti();
+            
+            musica.play().catch(error => {
+                console.log("El navegador requiere interacción previa o hubo un error al reproducir el audio.");
+            });
+        });
+    </script>
+
+</body>
+</html>
